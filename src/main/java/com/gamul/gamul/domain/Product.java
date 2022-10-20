@@ -20,8 +20,6 @@ public class Product {
     private Long speciesCode;
     private String speciesName;
 
-
-//    kg, g , L....
     private String unit;
     private String grade;
     private String note;
