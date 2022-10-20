@@ -1,4 +1,4 @@
-package com.gamul.gamul.domain;
+package com.gamul.gamul.domain.entity;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,8 +22,9 @@ public class District {
 
 
 //    //연관관계 메서드
-//    public void setMarket(Market market){
-//
-//    }
+    public void addMarket(Market market){
+        markets.add(market);
+        market.setDistrict(this);
+    }
 
 }

@@ -1,4 +1,4 @@
-package com.gamul.gamul.domain;
+package com.gamul.gamul.domain.entity;
 
 
 import lombok.Getter;
@@ -7,6 +7,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -26,8 +27,4 @@ public class Product {
 
     @OneToMany(mappedBy = "product")
     private List<MarketProductHistory> productHistory = new ArrayList<>();
-
-
-
-
 }
