@@ -18,7 +18,7 @@ public class User {
     @Id @GeneratedValue
     private Long userId;
 
-    private String userName;
+    private String name;
 
     private String email;
 
@@ -28,11 +28,11 @@ public class User {
     private Role role;
 
     @OneToMany(mappedBy = "user")
-    private List<UserLocation> userLocations = new ArrayList<>();
+    private List<Bookmark> bookmarks = new ArrayList<>();
 
-    public void addUserLocation(UserLocation userLocation){
-        userLocations.add(userLocation);
-        userLocation.setUser(this);
+    public void addUserLocation(Bookmark bookmark){
+        bookmarks.add(bookmark);
+        bookmark.setUser(this);
     }
 }
 

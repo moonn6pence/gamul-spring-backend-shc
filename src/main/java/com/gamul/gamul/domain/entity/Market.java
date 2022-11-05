@@ -22,16 +22,11 @@ public class Market {
     private String x;
     private String y;
 
-//   JoinColumn : 외래키 지정
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="district")
-    private District district;
-
     @OneToMany(mappedBy = "market")
-    private List<MarketProductHistory> marketProductHistoryList = new ArrayList<>();
+    private List<PriceHistory> priceHistoryList = new ArrayList<>();
 
-    public void addMarketProductHistory(MarketProductHistory marketProductHistory){
-        marketProductHistoryList.add(marketProductHistory);
-        marketProductHistory.setMarket(this);
+    public void addMarketProductHistory(PriceHistory priceHistory){
+        priceHistoryList.add(priceHistory);
+        priceHistory.setMarket(this);
     }
 }
