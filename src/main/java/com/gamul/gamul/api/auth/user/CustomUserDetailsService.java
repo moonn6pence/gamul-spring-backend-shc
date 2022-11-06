@@ -1,6 +1,7 @@
 package com.gamul.gamul.api.auth.user;
 
 import com.gamul.gamul.domain.entity.Member;
+import com.gamul.gamul.exception.LoginFailException;
 import com.gamul.gamul.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
@@ -25,7 +26,7 @@ public class CustomUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return memberRepository.findByEmail(username)
                 .map(this::createUserDetails)
-                .orElseThrow(() -> new UsernameNotFoundException(username + " -> DB에서 찾을 수 없습니다."));
+                .orElseThrow(() -> new LoginFailException(username + " -> DB에서 찾을 수 없습니다."));
     }
 
     private UserDetails createUserDetails(Member member) {

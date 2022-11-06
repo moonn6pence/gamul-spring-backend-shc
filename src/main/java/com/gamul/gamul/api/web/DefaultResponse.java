@@ -1,5 +1,6 @@
 package com.gamul.gamul.api.web;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,6 +14,7 @@ public class DefaultResponse<T> {
 
     private boolean success;
     private String responseMessage;
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private T data;
 
     public DefaultResponse(final int statusCode,boolean success, final String responseMessage) {
@@ -23,7 +25,7 @@ public class DefaultResponse<T> {
     }
 
     public static<T> DefaultResponse<T> res(final int statusCode,boolean success, final String responseMessage) {
-        return res(statusCode,success, responseMessage, null);
+        return res(statusCode,success, responseMessage,null);
     }
 
     public static<T> DefaultResponse<T> res(final int statusCode,boolean success, final String responseMessage, final T t) {

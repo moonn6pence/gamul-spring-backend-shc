@@ -5,6 +5,7 @@ import com.gamul.gamul.api.auth.util.SecurityUtil;
 import com.gamul.gamul.domain.dto.*;
 import com.gamul.gamul.domain.entity.Member;
 import com.gamul.gamul.domain.entity.RefreshToken;
+import com.gamul.gamul.exception.DuplicateEmailException;
 import com.gamul.gamul.repository.MemberRepository;
 import com.gamul.gamul.repository.RefreshTokenRepository;
 import lombok.RequiredArgsConstructor;
@@ -27,7 +28,7 @@ public class AuthService {
     @Transactional
     public MemberResponseDto signup(MemberRequestDto memberRequestDto) {
         if (memberRepository.existsByEmail(memberRequestDto.getEmail())) {
-            throw new RuntimeException("이미 가입되어 있는 유저입니다");
+            throw new DuplicateEmailException();
         }
 
         Member member = memberRequestDto.toMember(passwordEncoder);

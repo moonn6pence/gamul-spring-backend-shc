@@ -6,6 +6,11 @@ public class ResponseMessage {
     public static final String READ_USER = "회원 정보 조회 성공";
     public static final String NOT_FOUND_USER = "회원을 찾을 수 없습니다.";
     public static final String CREATED_USER = "회원 가입 성공";
+
+    public static final String ACCESS_DENIED = "접근 제한되었습니다";
+    public static final String UNAUTHORIZED = "인증에 실패했습니다";
+    public static final String DUPLICATE_EMAIL = "이미 존재하는 이메일입니다";
+    public static final String MISSING_ARGUMENTS = "요청된 자원에 필수 인수가 누락되었습니다";
     public static final String INTERNAL_SERVER_ERROR = "서버 내부 에러";
     public static final String REISSUE = "토큰 갱신 성공";
 }
