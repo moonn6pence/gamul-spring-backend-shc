@@ -10,17 +10,17 @@ import lombok.Data;
 @Builder
 public class DefaultResponse<T> {
 
-    private int statusCode;
+    private int status;
 
     private boolean success;
-    private String responseMessage;
+    private String message;
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private T data;
 
     public DefaultResponse(final int statusCode,boolean success, final String responseMessage) {
-        this.statusCode = statusCode;
+        this.status = statusCode;
         this.success = success;
-        this.responseMessage = responseMessage;
+        this.message = responseMessage;
         this.data = null;
     }
 
@@ -31,9 +31,9 @@ public class DefaultResponse<T> {
     public static<T> DefaultResponse<T> res(final int statusCode,boolean success, final String responseMessage, final T t) {
         return DefaultResponse.<T>builder()
                 .data(t)
-                .statusCode(statusCode)
+                .status(statusCode)
                 .success(success)
-                .responseMessage(responseMessage)
+                .message(responseMessage)
                 .build();
     }
 }

@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping("/api/auth")
 @RequiredArgsConstructor
@@ -20,12 +22,12 @@ public class AuthController {
     private final AuthService authService;
 
     @PostMapping("/signup")
-    public ResponseEntity signup(@RequestBody MemberRequestDto memberRequestDto) {
+    public ResponseEntity signup(@RequestBody @Valid MemberRequestDto memberRequestDto) {
         return new ResponseEntity(DefaultResponse.res(StatusCode.CREATED, true, ResponseMessage.CREATED_USER, authService.signup(memberRequestDto)), HttpStatus.CREATED);
     }
 
     @PostMapping("/login")
-    public ResponseEntity login(@RequestBody LoginRequestDto loginRequestDto) {
+    public ResponseEntity login(@RequestBody @Valid LoginRequestDto loginRequestDto) {
         return new ResponseEntity(DefaultResponse.res(StatusCode.OK, true, ResponseMessage.LOGIN_SUCCESS, authService.login(loginRequestDto)), HttpStatus.OK);
     }
 
