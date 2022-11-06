@@ -1,6 +1,7 @@
 package com.gamul.gamul.api.auth.service;
 
 import com.gamul.gamul.api.auth.jwt.TokenProvider;
+import com.gamul.gamul.api.auth.util.SecurityUtil;
 import com.gamul.gamul.domain.dto.*;
 import com.gamul.gamul.domain.entity.Member;
 import com.gamul.gamul.domain.entity.RefreshToken;
@@ -34,7 +35,8 @@ public class AuthService {
     }
 
     @Transactional
-    public TokenDto login(LoginRequestDto loginRequestDto) {
+    public LoginResponseDto login(LoginRequestDto loginRequestDto) {
+
         // 1. Login ID/PW 를 기반으로 AuthenticationToken 생성
         UsernamePasswordAuthenticationToken authenticationToken = loginRequestDto.toAuthentication();
 
@@ -42,19 +44,20 @@ public class AuthService {
         //    authenticate 메서드가 실행이 될 때 CustomUserDetailsService 에서 만들었던 loadUserByUsername 메서드가 실행됨
         Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
 
+        String name = memberRepository.findByEmail(loginRequestDto.getEmail()).get().getName();
         // 3. 인증 정보를 기반으로 JWT 토큰 생성
-        TokenDto tokenDto = tokenProvider.generateTokenDto(authentication);
+        LoginResponseDto loginResponseDto = tokenProvider.generateTokenDto(authentication,name);
 
         // 4. RefreshToken 저장
         RefreshToken refreshToken = RefreshToken.builder()
                 .key(authentication.getName())
-                .value(tokenDto.getRefreshToken())
+                .value(loginResponseDto.getRefreshToken())
                 .build();
 
         refreshTokenRepository.save(refreshToken);
 
         // 5. 토큰 발급
-        return tokenDto;
+        return loginResponseDto;
     }
 
     @Transactional

@@ -1,8 +1,12 @@
 package com.gamul.gamul.api.auth.controller;
 
 import com.gamul.gamul.api.auth.service.AuthService;
+import com.gamul.gamul.api.web.DefaultResponse;
+import com.gamul.gamul.api.web.ResponseMessage;
+import com.gamul.gamul.api.web.StatusCode;
 import com.gamul.gamul.domain.dto.*;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -16,18 +20,18 @@ public class AuthController {
     private final AuthService authService;
 
     @PostMapping("/signup")
-    public ResponseEntity<MemberResponseDto> signup(@RequestBody MemberRequestDto memberRequestDto) {
-        return ResponseEntity.ok(authService.signup(memberRequestDto));
+    public ResponseEntity signup(@RequestBody MemberRequestDto memberRequestDto) {
+        return new ResponseEntity(DefaultResponse.res(StatusCode.CREATED, true, ResponseMessage.CREATED_USER, authService.signup(memberRequestDto)), HttpStatus.CREATED);
     }
 
     @PostMapping("/login")
-    public ResponseEntity<TokenDto> login(@RequestBody LoginRequestDto loginRequestDto) {
-        return ResponseEntity.ok(authService.login(loginRequestDto));
+    public ResponseEntity login(@RequestBody LoginRequestDto loginRequestDto) {
+        return new ResponseEntity(DefaultResponse.res(StatusCode.OK, true, ResponseMessage.LOGIN_SUCCESS, authService.login(loginRequestDto)), HttpStatus.OK);
     }
 
     @PostMapping("/reissue")
-    public ResponseEntity<TokenDto> reissue(@RequestBody TokenRequestDto tokenRequestDto) {
-        return ResponseEntity.ok(authService.reissue(tokenRequestDto));
+    public ResponseEntity reissue(@RequestBody TokenRequestDto tokenRequestDto) {
+        return new ResponseEntity(DefaultResponse.res(StatusCode.OK, true, ResponseMessage.REISSUE, authService.reissue(tokenRequestDto)), HttpStatus.OK);
     }
 
 }
