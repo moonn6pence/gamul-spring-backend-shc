@@ -1,4 +1,4 @@
-package com.gamul.gamul.domain.dto;
+package com.gamul.gamul.api.auth.domain.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

@@ -1,5 +1,8 @@
 package com.gamul.gamul.api.auth.controller;
 
+import com.gamul.gamul.api.auth.domain.dto.LoginRequestDto;
+import com.gamul.gamul.api.auth.domain.dto.SignUpRequestDto;
+import com.gamul.gamul.api.auth.domain.dto.TokenRequestDto;
 import com.gamul.gamul.api.auth.service.AuthService;
 import com.gamul.gamul.api.web.DefaultResponse;
 import com.gamul.gamul.api.web.ResponseMessage;
@@ -22,8 +25,8 @@ public class AuthController {
     private final AuthService authService;
 
     @PostMapping("/signup")
-    public ResponseEntity signup(@RequestBody @Valid MemberRequestDto memberRequestDto) {
-        return new ResponseEntity(DefaultResponse.res(StatusCode.CREATED, true, ResponseMessage.CREATED_USER, authService.signup(memberRequestDto)), HttpStatus.CREATED);
+    public ResponseEntity signup(@RequestBody @Valid SignUpRequestDto signUpRequestDto) {
+        return new ResponseEntity(DefaultResponse.res(StatusCode.CREATED, true, ResponseMessage.CREATED_USER, authService.signup(signUpRequestDto)), HttpStatus.CREATED);
     }
 
     @PostMapping("/login")

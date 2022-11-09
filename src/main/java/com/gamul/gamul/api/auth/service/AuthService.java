@@ -1,8 +1,7 @@
 package com.gamul.gamul.api.auth.service;
 
+import com.gamul.gamul.api.auth.domain.dto.*;
 import com.gamul.gamul.api.auth.jwt.TokenProvider;
-import com.gamul.gamul.api.auth.util.SecurityUtil;
-import com.gamul.gamul.domain.dto.*;
 import com.gamul.gamul.domain.entity.Member;
 import com.gamul.gamul.domain.entity.RefreshToken;
 import com.gamul.gamul.exception.DuplicateEmailException;
@@ -26,13 +25,13 @@ public class AuthService {
     private final RefreshTokenRepository refreshTokenRepository;
 
     @Transactional
-    public MemberResponseDto signup(MemberRequestDto memberRequestDto) {
-        if (memberRepository.existsByEmail(memberRequestDto.getEmail())) {
+    public SignUpResponseDto signup(SignUpRequestDto signUpRequestDto) {
+        if (memberRepository.existsByEmail(signUpRequestDto.getEmail())) {
             throw new DuplicateEmailException();
         }
 
-        Member member = memberRequestDto.toMember(passwordEncoder);
-        return MemberResponseDto.of(memberRepository.save(member));
+        Member member = signUpRequestDto.toMember(passwordEncoder);
+        return SignUpResponseDto.of(memberRepository.save(member));
     }
 
     @Transactional
