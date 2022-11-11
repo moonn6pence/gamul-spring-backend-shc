@@ -13,4 +13,15 @@ public class ResponseMessage {
     public static final String INVALID_ARGUMENTS = "유효하지 않은 인자입니다";
     public static final String INTERNAL_SERVER_ERROR = "서버 내부 에러";
     public static final String REISSUE = "토큰 갱신 성공";
+
+    public static final String READ_BOOKMARK = "북마크 조회 성공";
+
+    public static final String CREATED_BOOKMARK = "북마크 추가 성공";
+
+    public static final String DELETED_BOOKMARK = "북마크 삭제 성공";
+
+    public static final String DUPLICATE_BOOKMARK = "이미 추가한 북마크입니다.";
+
+    public static final String NOT_FOUND_BOOKMARK = "존재하지 않는 북마크입니다.";
+
 }

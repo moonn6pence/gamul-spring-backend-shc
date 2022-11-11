@@ -1,7 +1,7 @@
 package com.gamul.gamul.api.auth.jwt;
 
-import com.gamul.gamul.domain.dto.LoginResponseDto;
-import com.gamul.gamul.domain.dto.TokenDto;
+import com.gamul.gamul.api.auth.domain.dto.LoginResponseDto;
+import com.gamul.gamul.api.auth.domain.dto.TokenDto;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;

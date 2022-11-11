@@ -1,11 +1,10 @@
-package com.gamul.gamul.domain.dto;
+package com.gamul.gamul.api.auth.domain.dto;
 
 import com.gamul.gamul.domain.entity.Authority;
 import com.gamul.gamul.domain.entity.Member;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.validation.constraints.Email;
@@ -14,14 +13,23 @@ import javax.validation.constraints.NotBlank;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class LoginRequestDto {
+public class SignUpRequestDto {
+
+    @NotBlank
+    private String name;
+
     @Email
     private String email;
 
     @NotBlank
     private String password;
 
-    public UsernamePasswordAuthenticationToken toAuthentication(){
-        return new UsernamePasswordAuthenticationToken(email, password);
+    public Member toMember(PasswordEncoder passwordEncoder) {
+        return Member.builder()
+                .name(name)
+                .email(email)
+                .password(passwordEncoder.encode(password))
+                .authority(Authority.ROLE_USER)
+                .build();
     }
 }

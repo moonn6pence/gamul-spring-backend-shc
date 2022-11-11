@@ -1,4 +1,4 @@
-package com.gamul.gamul.domain.dto;
+package com.gamul.gamul.api.auth.domain.dto;
 
 import com.gamul.gamul.domain.entity.Member;
 import lombok.AllArgsConstructor;
@@ -8,11 +8,11 @@ import lombok.NoArgsConstructor;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class MemberResponseDto {
+public class SignUpResponseDto {
 
     private String email;
 
-    public static MemberResponseDto of(Member member) {
-        return new MemberResponseDto(member.getEmail());
+    public static SignUpResponseDto of(Member member) {
+        return new SignUpResponseDto(member.getEmail());
     }
 }
