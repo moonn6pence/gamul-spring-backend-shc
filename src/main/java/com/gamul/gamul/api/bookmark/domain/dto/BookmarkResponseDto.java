@@ -24,12 +24,10 @@ public class BookmarkResponseDto {
 
         BookmarkResponseDto bookmarkResponseDto = new BookmarkResponseDto();
 
-        if (bookmarkList.isEmpty()) {
-            throw new NoBookmarkException("즐겨찾기가 비어있습니다.");
-        }
-
-        for (Bookmark bookmark : bookmarkList) {
-            bookmarkResponseDto.getMarket().add(bookmark.getMarket().getName());
+        if (!bookmarkList.isEmpty()) {
+            for (Bookmark bookmark : bookmarkList) {
+                bookmarkResponseDto.getMarket().add(bookmark.getMarket().getName());
+            }
         }
 
         return bookmarkResponseDto;
