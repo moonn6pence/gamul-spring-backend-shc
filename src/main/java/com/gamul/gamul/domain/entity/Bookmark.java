@@ -24,4 +24,15 @@ public class Bookmark {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "marketId")
     private Market market;
+
+    public static Bookmark createBookmark(Member member, Market market) {
+
+        Bookmark bookmark = new Bookmark();
+        bookmark.setMember(member);
+        bookmark.setMarket(market);
+
+        member.addMemberBookmark(bookmark);
+
+        return bookmark;
+    }
 }

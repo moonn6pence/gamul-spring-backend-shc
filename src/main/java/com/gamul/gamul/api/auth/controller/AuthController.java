@@ -7,7 +7,6 @@ import com.gamul.gamul.api.auth.service.AuthService;
 import com.gamul.gamul.api.web.DefaultResponse;
 import com.gamul.gamul.api.web.ResponseMessage;
 import com.gamul.gamul.api.web.StatusCode;
-import com.gamul.gamul.domain.dto.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
