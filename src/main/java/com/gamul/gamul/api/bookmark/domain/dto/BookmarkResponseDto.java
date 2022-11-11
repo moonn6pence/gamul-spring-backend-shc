@@ -1,6 +1,7 @@
 package com.gamul.gamul.api.bookmark.domain.dto;
 
 import com.gamul.gamul.domain.entity.Bookmark;
+import com.gamul.gamul.exception.NoBookmarkException;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,22 +12,26 @@ import java.util.List;
 
 @Slf4j
 @Getter
-@NoArgsConstructor
 @AllArgsConstructor
 public class BookmarkResponseDto {
     private List<String> market;
 
+    public BookmarkResponseDto(){
+        market = new ArrayList<>();
+    }
+
     public static BookmarkResponseDto of(List<Bookmark> bookmarkList) {
-        List<String> bookmarkNameList = new ArrayList<>();
 
         BookmarkResponseDto bookmarkResponseDto = new BookmarkResponseDto();
 
-        for (Bookmark bookmark : bookmarkList) {
-            bookmarkResponseDto.getMarket().add(bookmark.getMarket().getName());
-
-            log.info("Dto of, bookmark : {}", bookmark.getMarket().getName());
+        if (bookmarkList.isEmpty()) {
+            throw new NoBookmarkException("즐겨찾기가 비어있습니다.");
         }
 
-        return new BookmarkResponseDto(bookmarkNameList);
+        for (Bookmark bookmark : bookmarkList) {
+            bookmarkResponseDto.getMarket().add(bookmark.getMarket().getName());
+        }
+
+        return bookmarkResponseDto;
     }
 }

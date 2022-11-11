@@ -3,10 +3,7 @@ package com.gamul.gamul.api;
 import com.gamul.gamul.api.web.DefaultResponse;
 import com.gamul.gamul.api.web.ResponseMessage;
 import com.gamul.gamul.api.web.StatusCode;
-import com.gamul.gamul.exception.AccessDeniedException;
-import com.gamul.gamul.exception.DuplicateEmailException;
-import com.gamul.gamul.exception.LoginFailException;
-import com.gamul.gamul.exception.UnauthorizedException;
+import com.gamul.gamul.exception.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -41,6 +38,18 @@ public class ApiControllerAdvice {
     public ResponseEntity methodArgumentNotValidException(MethodArgumentNotValidException e) {
         return new ResponseEntity(DefaultResponse.res(StatusCode.INVALID_ARGUMENTS, false, ResponseMessage.INVALID_ARGUMENTS), HttpStatus.BAD_REQUEST);
     }
+
+    @ExceptionHandler(DuplicateBookmarkException.class)
+    public ResponseEntity duplicateBookmarkException(DuplicateBookmarkException e) {
+        return new ResponseEntity(DefaultResponse.res(StatusCode.BAD_REQUEST, false, ResponseMessage.DUPLICATE_BOOKMARK), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(NoBookmarkException.class)
+    public ResponseEntity noBookmarkException(NoBookmarkException e) {
+        return new ResponseEntity(DefaultResponse.res(StatusCode.BAD_REQUEST, false, ResponseMessage.NOT_FOUND_BOOKMARK), HttpStatus.BAD_REQUEST);
+    }
+
+
 
     @ExceptionHandler(RuntimeException.class)
     public ResponseEntity runtimeException(RuntimeException e) {

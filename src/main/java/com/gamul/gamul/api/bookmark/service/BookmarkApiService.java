@@ -6,6 +6,8 @@ import com.gamul.gamul.api.bookmark.domain.dto.BookmarkResponseDto;
 import com.gamul.gamul.domain.entity.Bookmark;
 import com.gamul.gamul.domain.entity.Market;
 import com.gamul.gamul.domain.entity.Member;
+import com.gamul.gamul.exception.DuplicateBookmarkException;
+import com.gamul.gamul.exception.NoBookmarkException;
 import com.gamul.gamul.exception.NoUserException;
 import com.gamul.gamul.repository.BookmarkRepository;
 import com.gamul.gamul.repository.MarketRepository;
@@ -13,6 +15,7 @@ import com.gamul.gamul.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -26,6 +29,7 @@ public class BookmarkApiService {
 
     private final MarketRepository marketRepository;
 
+    @Transactional(readOnly = true)
     public BookmarkResponseDto getBookmarkList() {
 
         Member member = getMember();
@@ -34,10 +38,14 @@ public class BookmarkApiService {
 
     }
 
-
+    @Transactional
     public void addBookmark(BookmarkRequestDto bookmarkRequestDto){
         Member member = getMember();
         Market market = getMarket(bookmarkRequestDto);
+
+        if (bookmarkRepository.existsByMarket(market)) {
+            throw new DuplicateBookmarkException("이미 추가한 북마크입니다.");
+        }
 
         Bookmark bookmark = Bookmark.createBookmark(member,market);
 
@@ -46,9 +54,14 @@ public class BookmarkApiService {
         log.info("addBookmark bookmark:{}",bookmark.getMarket().getName());
     }
 
+    @Transactional
     public void deleteBookmark(BookmarkRequestDto bookmarkRequestDto){
         Member member = getMember();
         Market market = getMarket(bookmarkRequestDto);
+
+        if (!bookmarkRepository.existsByMarket(market)) {
+            throw new NoBookmarkException("존재하지 않는 북마크입니다.");
+        }
 
         bookmarkRepository.deleteBookmarkByMemberAndMarket(member, market);
     }
@@ -66,7 +79,8 @@ public class BookmarkApiService {
 
         Market market = marketRepository.findByName(bookmarkRequestDto.getMarket()).get();
 
-        log.info("getMarket");
+        log.info("getMarket market name {}",market.getName());
+
         return market;
     }
 }

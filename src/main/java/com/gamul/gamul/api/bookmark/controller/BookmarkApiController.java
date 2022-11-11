@@ -10,6 +10,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping("api/bookmark")
 @RequiredArgsConstructor
@@ -23,7 +25,7 @@ public class BookmarkApiController {
     }
 
     @PostMapping("")
-    public ResponseEntity addBookmark(@RequestBody BookmarkRequestDto bookmarkRequestDto){
+    public ResponseEntity addBookmark(@RequestBody @Valid BookmarkRequestDto bookmarkRequestDto){
 
         bookmarkApiService.addBookmark(bookmarkRequestDto);
 
@@ -31,7 +33,7 @@ public class BookmarkApiController {
     }
 
     @DeleteMapping("")
-    public ResponseEntity deleteBookmark(@RequestBody BookmarkRequestDto bookmarkRequestDto){
+    public ResponseEntity deleteBookmark(@RequestBody @Valid BookmarkRequestDto bookmarkRequestDto){
 
         bookmarkApiService.deleteBookmark(bookmarkRequestDto);
 
