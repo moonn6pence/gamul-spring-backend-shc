@@ -20,7 +20,7 @@ public class PriceHistory {
 
     private LocalDate date;
 
-    private Long price;
+    private int price;
 
     private String unit;
 

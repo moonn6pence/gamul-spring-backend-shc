@@ -11,7 +11,7 @@ import java.time.LocalDate;
 public class PriceHistoryDto {
 
     private LocalDate date;
-    private Long price;
+    private int price;
     private String unit;
 
     public static PriceHistoryDto of(PriceHistory priceHistory) {

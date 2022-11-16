@@ -7,6 +7,7 @@ import com.gamul.gamul.exception.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -14,7 +15,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class ApiControllerAdvice {
 
-    @ExceptionHandler({LoginFailException.class, BadCredentialsException.class})
+    @ExceptionHandler({LoginFailException.class, BadCredentialsException.class, InternalAuthenticationServiceException.class})
     public ResponseEntity loginFailException() {
         return new ResponseEntity(DefaultResponse.res(StatusCode.BAD_REQUEST, false, ResponseMessage.LOGIN_FAIL), HttpStatus.CREATED);
     }

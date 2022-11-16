@@ -44,9 +44,11 @@ public class AuthService {
         //    authenticate 메서드가 실행이 될 때 CustomUserDetailsService 에서 만들었던 loadUserByUsername 메서드가 실행됨
         Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
 
-        String name = memberRepository.findByEmail(loginRequestDto.getEmail()).get().getName();
+        String email = loginRequestDto.getEmail();
+        String name = memberRepository.findByEmail(email).get().getName();
+
         // 3. 인증 정보를 기반으로 JWT 토큰 생성
-        LoginResponseDto loginResponseDto = tokenProvider.generateTokenDto(authentication,name);
+        LoginResponseDto loginResponseDto = tokenProvider.generateTokenDto(authentication,name,email);
 
         // 4. RefreshToken 저장
         RefreshToken refreshToken = RefreshToken.builder()
