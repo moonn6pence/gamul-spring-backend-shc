@@ -2,6 +2,7 @@ package com.gamul.gamul.api.auth.jwt;
 
 import com.gamul.gamul.api.auth.domain.dto.LoginResponseDto;
 import com.gamul.gamul.api.auth.domain.dto.TokenDto;
+import com.gamul.gamul.exception.LoginFailException;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
@@ -25,7 +26,6 @@ import java.util.stream.Collectors;
 @Slf4j
 @Component
 public class TokenProvider {
-
     private static final String AUTHORITIES_KEY = "auth";
     private static final String BEARER_TYPE = "bearer";
     private final long ACCESS_TOKEN_EXPIRE_TIME;
@@ -73,7 +73,7 @@ public class TokenProvider {
                 .build();
     }
 
-    public LoginResponseDto generateTokenDto(Authentication authentication, String name) {
+    public LoginResponseDto generateTokenDto(Authentication authentication, String name, String email) {
         // 권한들 가져오기
         String authorities = authentication.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
@@ -86,6 +86,7 @@ public class TokenProvider {
         String accessToken = Jwts.builder()
                 .setSubject(authentication.getName())       // payload "sub": "name"
                 .claim(AUTHORITIES_KEY, authorities)        // payload "auth": "ROLE_USER"
+                .claim("email",email)                 // payload "email" : "email"
                 .setExpiration(accessTokenExpiresIn)        // payload "exp": 1516239022 (예시)
                 .signWith(key, SignatureAlgorithm.HS512)    // header "alg": "HS512"
                 .compact();
@@ -110,7 +111,7 @@ public class TokenProvider {
         Claims claims = parseClaims(accessToken);
 
         if (claims.get(AUTHORITIES_KEY) == null) {
-            throw new RuntimeException("권한 정보가 없는 토큰입니다.");
+            throw new LoginFailException("권한 정보가 없는 토큰입니다.");
         }
 
         // 클레임에서 권한 정보 가져오기
