@@ -9,4 +9,6 @@ import java.util.List;
 
 public interface PriceHistoryRepository extends JpaRepository<PriceHistory, Long> {
     List<PriceHistory> findByNameAndMarket(String name, Market market, Sort sort);
+
+//    List<PriceHistory> find(Market market);
 }

@@ -10,6 +10,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping("api/product")
 @RequiredArgsConstructor
@@ -18,7 +20,7 @@ public class ProductApiController {
     private final ProductApiService productApiService;
 
     @GetMapping("")
-    public ResponseEntity getProductPriceHistory(@RequestBody ProductRequestDto productRequestDto) {
+    public ResponseEntity getProductPriceHistory(@RequestBody @Valid ProductRequestDto productRequestDto) {
         return new ResponseEntity(DefaultResponse.res(StatusCode.OK, true, ResponseMessage.READ_PRICE_HISTORY, productApiService.getProductPriceHistory(productRequestDto)), HttpStatus.OK);
     }
 }
