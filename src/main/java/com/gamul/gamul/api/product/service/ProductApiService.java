@@ -9,9 +9,11 @@ import com.gamul.gamul.repository.MarketRepository;
 import com.gamul.gamul.repository.PriceHistoryRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,13 +31,23 @@ public class ProductApiService {
 
         Market market = getMarket(productRequestDto.getMarket());
 
-        log.info("market name = {}", market.getName());
+        Sort sort = sortByDate();
 
-        List<PriceHistory> priceHistories = priceHistoryRepository.findByNameAndMarket(productRequestDto.getProduct(), market);
+        LocalDate nowDate = LocalDate.now();
+
+
+        List<PriceHistory> priceHistories = priceHistoryRepository.findByNameAndMarket(productRequestDto.getProduct(), market,sort);
         List<PriceHistoryDto> priceHistoryDtos = new ArrayList<>();
 
         for (PriceHistory priceHistory : priceHistories) {
-            priceHistoryDtos.add(PriceHistoryDto.of(priceHistory));
+
+            if (priceHistoryDtos.size() == 6) {
+                break;
+            }
+
+            if (priceHistory.getDate().isBefore(nowDate)) {
+                priceHistoryDtos.add(0,PriceHistoryDto.of(priceHistory));
+            }
         }
 
         return ProductResponseDto.of(priceHistoryDtos);
@@ -46,5 +58,9 @@ public class ProductApiService {
         Market market = marketRepository.findByName(marketName).get();
 
         return market;
+    }
+
+    private Sort sortByDate() {
+        return Sort.by(Sort.Direction.DESC, "date");
     }
 }
