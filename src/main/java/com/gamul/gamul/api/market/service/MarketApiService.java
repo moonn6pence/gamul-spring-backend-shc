@@ -88,8 +88,8 @@ public class MarketApiService {
 
         Double currentX = current.getX();
         Double currentY = current.getY();
-        Double targetX = current.getX();
-        Double targetY = current.getY();
+        Double targetX = target.getX();
+        Double targetY = target.getY();
 
         return Math.pow(currentX - targetX, 2) + Math.pow(currentY - targetY, 2);
     }
