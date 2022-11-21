@@ -19,8 +19,8 @@ public class Market {
     private Long marketId;
     private String name;
 
-    private String x;
-    private String y;
+    private Double x;
+    private Double y;
 
     @OneToMany(mappedBy = "market")
     private List<PriceHistory> priceHistoryList = new ArrayList<>();
