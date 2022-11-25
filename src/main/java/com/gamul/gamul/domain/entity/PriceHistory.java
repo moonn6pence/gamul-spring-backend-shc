@@ -28,5 +28,15 @@ public class PriceHistory {
     @JoinColumn(name = "marketId")
     private Market market;
 
+    public static PriceHistory createPriceHistory(String name, LocalDate date, int price, String unit, Market market) {
+        PriceHistory priceHistory = new PriceHistory();
+        priceHistory.setName(name);
+        priceHistory.setDate(date);
+        priceHistory.setPrice(price);
+        priceHistory.setUnit(unit);
 
+        market.addMarketProductHistory(priceHistory);
+
+        return priceHistory;
+    }
 }
