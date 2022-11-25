@@ -21,12 +21,4 @@ public class Market {
 
     private Double x;
     private Double y;
-
-    @OneToMany(mappedBy = "market")
-    private List<PriceHistory> priceHistoryList = new ArrayList<>();
-
-    public void addMarketProductHistory(PriceHistory priceHistory){
-        priceHistoryList.add(priceHistory);
-        priceHistory.setMarket(this);
-    }
 }

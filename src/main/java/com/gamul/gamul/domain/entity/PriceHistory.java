@@ -34,8 +34,7 @@ public class PriceHistory {
         priceHistory.setDate(date);
         priceHistory.setPrice(price);
         priceHistory.setUnit(unit);
-
-        market.addMarketProductHistory(priceHistory);
+        priceHistory.setMarket(market);
 
         return priceHistory;
     }
