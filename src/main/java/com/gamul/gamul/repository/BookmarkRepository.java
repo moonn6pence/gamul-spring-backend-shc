@@ -15,7 +15,7 @@ public interface BookmarkRepository extends JpaRepository<Bookmark, Long> {
     @Query("select b from Bookmark b join fetch b.market where b.member = :member")
     List<Bookmark> findAllByMember(@Param("member") Member member);
 
-    void deleteBookmarkByMemberAndMarket(Member member, Market market);
+    Optional<Bookmark> findByMemberAndMarket(Member member, Market market);
 
     boolean existsById(Long id);
     boolean existsByMarket(Market market);

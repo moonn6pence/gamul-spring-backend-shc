@@ -18,7 +18,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
+import java.awt.print.Book;
 
 @Slf4j
 @Service
@@ -61,7 +61,11 @@ public class BookmarkApiService {
             throw new NoBookmarkException("존재하지 않는 북마크입니다.");
         }
 
-        bookmarkRepository.deleteBookmarkByMemberAndMarket(member, market);
+        Bookmark bookmark = bookmarkRepository.findByMemberAndMarket(member, market).get();
+
+        member.getBookmarks().remove(bookmark);
+
+        bookmarkRepository.delete(bookmark);
     }
 
     private Member getMember() {
@@ -73,7 +77,7 @@ public class BookmarkApiService {
 
     private Market getMarket(BookmarkRequestDto bookmarkRequestDto) {
 
-        if (marketRepository.existsByName(bookmarkRequestDto.getMarket())) {
+        if (!marketRepository.existsByName(bookmarkRequestDto.getMarket())) {
             throw new NoSuchMarketException("존재하지 않는 마트입니다.");
         }
 
