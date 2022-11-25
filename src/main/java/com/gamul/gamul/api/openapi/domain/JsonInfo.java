@@ -13,12 +13,12 @@ public class JsonInfo {
         this.info = new HashMap<>();
     }
 
-    public void addJson(JsonKey jsonKey, int price) {
+    public void addJson(JsonKey jsonKey,String unit, int price) {
         if (info.containsKey(jsonKey)) {
-            info.get(jsonKey).addJsonValue(price);
+            info.get(jsonKey).addJsonValue(unit, price);
             return;
         }
 
-        info.put(jsonKey, JsonValue.of(price));
+        info.put(jsonKey, JsonValue.of(unit, price));
     }
 }

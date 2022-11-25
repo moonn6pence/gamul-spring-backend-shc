@@ -10,13 +10,11 @@ public class JsonKey {
 
     private String marketName;
     private String itemName;
-    private String unit;
     private LocalDate date;
 
-    public JsonKey(String marketName, String itemName, String unit, String date) {
+    public JsonKey(String marketName, String itemName, String date) {
         this.marketName = marketName;
         this.itemName = itemName;
-        this.unit = unit;
         this.date = LocalDate.parse(date);
     }
 
@@ -32,12 +30,11 @@ public class JsonKey {
 
         return Objects.equals(marketName, key.marketName) &&
                 Objects.equals(itemName, key.itemName) &&
-                Objects.equals(unit, key.unit) &&
                 Objects.equals(date, key.date);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(marketName, itemName, unit, date);
+        return Objects.hash(marketName, itemName, date);
     }
 }

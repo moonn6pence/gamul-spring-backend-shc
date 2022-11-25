@@ -36,9 +36,9 @@ public class OpenApiService {
             String date = (String) item.get("P_DATE");
             int price = Integer.parseInt((String) item.get("A_PRICE"));
 
-            JsonKey jsonKey = new JsonKey(marketName, itemName, unit, date);
+            JsonKey jsonKey = new JsonKey(marketName, itemName, date);
 
-            jsonInfo.addJson(jsonKey,price);
+            jsonInfo.addJson(jsonKey, unit, price);
         }
     }
 
@@ -48,10 +48,11 @@ public class OpenApiService {
         for (JsonKey jsonKey : info.keySet()) {
             try {
                 int averagePrice = info.get(jsonKey).getAveragePrice();
+                String unit = info.get(jsonKey).getUnit();
 
                 Market market = marketRepository.findByName(jsonKey.getMarketName()).get();
 
-                priceHistoryRepository.save(PriceHistory.createPriceHistory(jsonKey.getItemName(), jsonKey.getDate(), averagePrice, jsonKey.getUnit(), market));
+                priceHistoryRepository.save(PriceHistory.createPriceHistory(jsonKey.getItemName(), jsonKey.getDate(), averagePrice, unit, market));
 
             } catch (Exception e) {
                 continue;
