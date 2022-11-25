@@ -8,6 +8,7 @@ import com.gamul.gamul.domain.entity.Market;
 import com.gamul.gamul.domain.entity.Member;
 import com.gamul.gamul.exception.DuplicateBookmarkException;
 import com.gamul.gamul.exception.NoBookmarkException;
+import com.gamul.gamul.exception.NoSuchMarketException;
 import com.gamul.gamul.exception.NoUserException;
 import com.gamul.gamul.repository.BookmarkRepository;
 import com.gamul.gamul.repository.MarketRepository;
@@ -34,8 +35,7 @@ public class BookmarkApiService {
 
         Member member = getMember();
 
-        return BookmarkResponseDto.of(bookmarkRepository.findAllByMember(member));
-
+        return BookmarkResponseDto.of(member.getBookmarks());
     }
 
     @Transactional
@@ -50,8 +50,6 @@ public class BookmarkApiService {
         Bookmark bookmark = Bookmark.createBookmark(member,market);
 
         bookmarkRepository.save(bookmark);
-
-        log.info("addBookmark bookmark:{}",bookmark.getMarket().getName());
     }
 
     @Transactional
@@ -70,16 +68,16 @@ public class BookmarkApiService {
         Member member = memberRepository.findById(SecurityUtil.getCurrentMemberId())
                 .orElseThrow(()->new NoUserException("유저 정보가 없습니다."));
 
-        log.info("getMember username {}", member.getName());
-
         return member;
     }
 
     private Market getMarket(BookmarkRequestDto bookmarkRequestDto) {
 
-        Market market = marketRepository.findByName(bookmarkRequestDto.getMarket()).get();
+        if (marketRepository.existsByName(bookmarkRequestDto.getMarket())) {
+            throw new NoSuchMarketException("존재하지 않는 마트입니다.");
+        }
 
-        log.info("getMarket market name {}",market.getName());
+        Market market = marketRepository.findByName(bookmarkRequestDto.getMarket()).get();
 
         return market;
     }
