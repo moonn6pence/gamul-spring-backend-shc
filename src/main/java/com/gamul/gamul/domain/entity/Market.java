@@ -19,6 +19,8 @@ public class Market {
     private Long marketId;
     private String name;
 
+    private String region;
+
     private Double x;
     private Double y;
 }
