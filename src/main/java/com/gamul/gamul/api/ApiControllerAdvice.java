@@ -50,6 +50,11 @@ public class ApiControllerAdvice {
         return new ResponseEntity(DefaultResponse.res(StatusCode.BAD_REQUEST, false, ResponseMessage.NOT_FOUND_BOOKMARK), HttpStatus.BAD_REQUEST);
     }
 
+    @ExceptionHandler(NoSuchMarketException.class)
+    public ResponseEntity noSuchMarketException(NoSuchMarketException e) {
+        return new ResponseEntity(DefaultResponse.res(StatusCode.BAD_REQUEST, false, ResponseMessage.NOT_FOUND_MARKET), HttpStatus.BAD_REQUEST);
+    }
+
 
 
     @ExceptionHandler(RuntimeException.class)

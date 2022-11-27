@@ -7,6 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
@@ -25,7 +26,7 @@ import java.util.Iterator;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class OpenApiTask {
+public class OpenApiTask implements CommandLineRunner {
 
     private final String apiDomain = "http://openAPI.seoul.go.kr:8088";
     @Value("${openApi.key}")
@@ -36,10 +37,31 @@ public class OpenApiTask {
 
     // 초 분 시 일 월 주 년
     @Scheduled(cron = "0 0 0 L * *")
-    public void gatherMonthlyOpenApiData(){
+    public void gatherCurrentMonthOpenApiData(){
 
         LocalDate today = LocalDate.now();
         String todayYearMonth = today.format(DateTimeFormatter.ofPattern("yyyy-MM"));
+        gatherOpenApiDataOf(todayYearMonth);
+    }
+
+    public void gatherPastOpenApiData() {
+        LocalDate today = LocalDate.now();
+
+        for (int month = 0; month <= 6; month++) {
+            LocalDate past = today.minusMonths(month);
+            String pastYearMonth = past.format(DateTimeFormatter.ofPattern("yyyy-MM"));
+            gatherOpenApiDataOf(pastYearMonth);
+        }
+    }
+
+    @Override
+    public void run(String... args) throws Exception {
+        gatherPastOpenApiData();
+        gatherCurrentMonthOpenApiData();
+
+        log.info("서버 가동 후 1회 과거 데이터 가져오기 완료");
+    }
+    private void gatherOpenApiDataOf(String todayYearMonth) {
         JsonInfo jsonInfo = new JsonInfo();
 
         int startIndex = 1, endIndex = 1000;
@@ -60,7 +82,6 @@ public class OpenApiTask {
         }
 
         openApiService.insertInfoToPriceHistory(jsonInfo);
-
     }
 
     private URL buildUrl(String apiDomain, String key, String type, String service, int startIndex, int endIndex, String today) {

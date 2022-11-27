@@ -8,6 +8,7 @@ import com.gamul.gamul.domain.entity.PriceHistory;
 import com.gamul.gamul.repository.MarketRepository;
 import com.gamul.gamul.repository.PriceHistoryRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.stereotype.Service;
@@ -15,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Map;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class OpenApiService {
@@ -36,9 +38,9 @@ public class OpenApiService {
             String date = (String) item.get("P_DATE");
             int price = Integer.parseInt((String) item.get("A_PRICE"));
 
-            JsonKey jsonKey = new JsonKey(marketName, itemName, unit, date);
+            JsonKey jsonKey = new JsonKey(marketName, itemName, date);
 
-            jsonInfo.addJson(jsonKey,price);
+            jsonInfo.addJson(jsonKey, unit, price);
         }
     }
 
@@ -48,12 +50,16 @@ public class OpenApiService {
         for (JsonKey jsonKey : info.keySet()) {
             try {
                 int averagePrice = info.get(jsonKey).getAveragePrice();
+                String unit = info.get(jsonKey).getUnit();
 
                 Market market = marketRepository.findByName(jsonKey.getMarketName()).get();
 
-                priceHistoryRepository.save(PriceHistory.createPriceHistory(jsonKey.getItemName(), jsonKey.getDate(), averagePrice, jsonKey.getUnit(), market));
+                priceHistoryRepository.save(PriceHistory.createPriceHistory(jsonKey.getItemName(), jsonKey.getDate(), averagePrice, unit, market));
+                log.info("저장 성공 {} {}",market.getName(),jsonKey.getItemName());
 
             } catch (Exception e) {
+                log.info("저장 실패 {} {}",jsonKey.getMarketName(),jsonKey.getItemName());
+                e.printStackTrace();
                 continue;
             }
 

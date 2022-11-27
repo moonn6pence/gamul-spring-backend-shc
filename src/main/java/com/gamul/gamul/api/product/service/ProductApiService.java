@@ -3,6 +3,7 @@ package com.gamul.gamul.api.product.service;
 import com.gamul.gamul.api.product.domain.dto.PriceHistoryDto;
 import com.gamul.gamul.api.product.domain.dto.ProductRequestDto;
 import com.gamul.gamul.api.product.domain.dto.ProductResponseDto;
+import com.gamul.gamul.api.product.domain.dto.RecentPriceDto;
 import com.gamul.gamul.domain.entity.Market;
 import com.gamul.gamul.domain.entity.PriceHistory;
 import com.gamul.gamul.repository.MarketRepository;
@@ -35,19 +36,37 @@ public class ProductApiService {
 
         LocalDate nowDate = LocalDate.now();
 
+        String targetName = productRequestDto.getProduct();
 
-        List<PriceHistory> priceHistories = priceHistoryRepository.findByNameAndMarket(productRequestDto.getProduct(), market,sort);
+        List<String> allProductNames = priceHistoryRepository.findAllName();
+        List<String> relatedProductNames = new ArrayList<>();
+
+        for (String name : allProductNames) {
+            if (targetName.equals("배")) {
+                if (name.contains(targetName) && !name.contains("배추"))
+                    relatedProductNames.add(name);
+            }else {
+                if (name.contains(targetName))
+                    relatedProductNames.add(name);
+            }
+        }
+
         List<PriceHistoryDto> priceHistoryDtos = new ArrayList<>();
 
-        for (PriceHistory priceHistory : priceHistories) {
+        for (String name : relatedProductNames) {
+            List<PriceHistory> priceHistories = priceHistoryRepository.findByMarket(market, sort);
 
-            if (priceHistoryDtos.size() == 6) {
-                break;
-            }
+            List<RecentPriceDto> recentPriceDtos = new ArrayList<>();
+            for (PriceHistory priceHistory : priceHistories) {
+                if (recentPriceDtos.size() == 6) {
+                    break;
+                }
 
-            if (priceHistory.getDate().isBefore(nowDate)) {
-                priceHistoryDtos.add(0,PriceHistoryDto.of(priceHistory));
+                if (priceHistory.getDate().isBefore(nowDate)) {
+                    recentPriceDtos.add(RecentPriceDto.of(priceHistory));
+                }
             }
+            priceHistoryDtos.add(new PriceHistoryDto(name, priceHistories.get(0).getUnit(), recentPriceDtos));
         }
 
         return ProductResponseDto.of(priceHistoryDtos);

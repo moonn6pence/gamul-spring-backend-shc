@@ -24,6 +24,8 @@ public class ResponseMessage {
 
     public static final String NOT_FOUND_BOOKMARK = "존재하지 않는 북마크입니다.";
 
+    public static final String NOT_FOUND_MARKET = "존재하지 않는 마트입니다.";
+
     public static final String READ_PRICE_HISTORY = "물가 조회 성공";
 
 }
