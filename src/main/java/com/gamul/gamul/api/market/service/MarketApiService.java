@@ -113,9 +113,17 @@ public class MarketApiService {
         Map<String, PriceHistory> latestPriceHistory = new HashMap<>();
 
         for (String name : products) {
-            List<PriceHistory> certainProductPrices = unrefined.stream()
-                    .filter(price -> price.getName().contains(name))
-                    .collect(Collectors.toList());
+            List<PriceHistory> certainProductPrices;
+            if (name.equals("배")) {
+                certainProductPrices = unrefined.stream()
+                        .filter(price->price.getName().contains(name)&&!price.getName().contains("배추"))
+                        .collect(Collectors.toList());
+            } else {
+                certainProductPrices = unrefined.stream()
+                        .filter(price -> price.getName().contains(name))
+                        .collect(Collectors.toList());
+            }
+
 
             if (certainProductPrices.isEmpty()) {
                 latestPriceHistory.put(name, null);

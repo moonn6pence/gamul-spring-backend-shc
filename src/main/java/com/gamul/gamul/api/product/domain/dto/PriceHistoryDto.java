@@ -5,16 +5,13 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Getter
 @AllArgsConstructor
 public class PriceHistoryDto {
 
-    private LocalDate date;
-    private int price;
+    private String name;
     private String unit;
-
-    public static PriceHistoryDto of(PriceHistory priceHistory) {
-        return new PriceHistoryDto(priceHistory.getDate(), priceHistory.getPrice(), priceHistory.getUnit());
-    }
+    private List<RecentPriceDto> recentPriceDtos;
 }

@@ -10,10 +10,10 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface PriceHistoryRepository extends JpaRepository<PriceHistory, Long> {
-    List<PriceHistory> findByNameAndMarket(String name, Market market, Sort sort);
+    List<PriceHistory> findByMarket(Market market, Sort sort);
 
-    List<PriceHistory> findByMarket(@Param("market") Market market);
+    List<PriceHistory> findByMarket(Market market);
 
-    @Query("select distinct p.name from PriceHistory p")
+    @Query(value = "select DISTINCT(p.name) from PriceHistory p")
     List<String> findAllName();
 }

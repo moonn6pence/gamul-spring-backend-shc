@@ -26,7 +26,6 @@ public class BookmarkResponseDto {
             for (Bookmark bookmark : bookmarkList) {
                 Info info = new Info(bookmark.getMarket().getName(),bookmark.getMarket().getRegion());
                 bookmarkResponseDto.getMarket().add(info);
-                System.out.println(info.getName()+" "+info.getRegion());
             }
         }
 

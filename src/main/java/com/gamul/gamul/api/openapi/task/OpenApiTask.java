@@ -47,7 +47,7 @@ public class OpenApiTask implements CommandLineRunner {
     public void gatherPastOpenApiData() {
         LocalDate today = LocalDate.now();
 
-        for (int month = 1; month <= 6; month++) {
+        for (int month = 0; month <= 6; month++) {
             LocalDate past = today.minusMonths(month);
             String pastYearMonth = past.format(DateTimeFormatter.ofPattern("yyyy-MM"));
             gatherOpenApiDataOf(pastYearMonth);
@@ -56,8 +56,9 @@ public class OpenApiTask implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-//        gatherPastOpenApiData();
-//        gatherCurrentMonthOpenApiData();
+        gatherPastOpenApiData();
+        gatherCurrentMonthOpenApiData();
+
         log.info("서버 가동 후 1회 과거 데이터 가져오기 완료");
     }
     private void gatherOpenApiDataOf(String todayYearMonth) {

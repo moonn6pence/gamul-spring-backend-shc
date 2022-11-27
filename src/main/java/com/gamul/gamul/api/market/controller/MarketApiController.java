@@ -9,7 +9,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -23,12 +22,7 @@ public class MarketApiController {
     private final MarketApiService marketApiService;
 
     @GetMapping("")
-    public ResponseEntity getMarketPrice(@RequestBody @Valid MarketRequestDto marketRequestDto) {
+    public ResponseEntity getMarketPrice(@Valid MarketRequestDto marketRequestDto) {
         return new ResponseEntity(DefaultResponse.res(StatusCode.OK, true, ResponseMessage.READ_PRICE_HISTORY, marketApiService.getMarketPrice(marketRequestDto)), HttpStatus.OK);
     }
-
-//    @GetMapping("/init")
-//    public ResponseEntity getAllMarket() {
-//        return new ResponseEntity(DefaultResponse.res(StatusCode.OK, true, ResponseMessage.READ_BOOKMARK, marketApiService.getAllMarket()), HttpStatus.OK);
-//    }
 }

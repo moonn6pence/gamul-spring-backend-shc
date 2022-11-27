@@ -20,7 +20,7 @@ public class ProductApiController {
     private final ProductApiService productApiService;
 
     @GetMapping("")
-    public ResponseEntity getProductPriceHistory(@RequestBody @Valid ProductRequestDto productRequestDto) {
+    public ResponseEntity getProductPriceHistory(@Valid ProductRequestDto productRequestDto) {
         return new ResponseEntity(DefaultResponse.res(StatusCode.OK, true, ResponseMessage.READ_PRICE_HISTORY, productApiService.getProductPriceHistory(productRequestDto)), HttpStatus.OK);
     }
 }
