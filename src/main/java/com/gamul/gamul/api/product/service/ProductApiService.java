@@ -54,7 +54,10 @@ public class ProductApiService {
         List<PriceHistoryDto> priceHistoryDtos = new ArrayList<>();
 
         for (String name : relatedProductNames) {
-            List<PriceHistory> priceHistories = priceHistoryRepository.findByMarket(market, sort);
+            List<PriceHistory> priceHistories = priceHistoryRepository.findByNameAndMarket(name, market, sort);
+            if (priceHistories.isEmpty()) {
+                continue;
+            }
 
             List<RecentPriceDto> recentPriceDtos = new ArrayList<>();
             for (PriceHistory priceHistory : priceHistories) {
@@ -66,6 +69,7 @@ public class ProductApiService {
                     recentPriceDtos.add(RecentPriceDto.of(priceHistory));
                 }
             }
+
             priceHistoryDtos.add(new PriceHistoryDto(name, priceHistories.get(0).getUnit(), recentPriceDtos));
         }
 

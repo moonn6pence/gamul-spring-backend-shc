@@ -56,10 +56,10 @@ public class OpenApiTask implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        gatherPastOpenApiData();
-        gatherCurrentMonthOpenApiData();
-
-        log.info("서버 가동 후 1회 과거 데이터 가져오기 완료");
+//        gatherPastOpenApiData();
+//        gatherCurrentMonthOpenApiData();
+//
+//        log.info("서버 가동 후 1회 과거 데이터 가져오기 완료");
     }
     private void gatherOpenApiDataOf(String todayYearMonth) {
         JsonInfo jsonInfo = new JsonInfo();
