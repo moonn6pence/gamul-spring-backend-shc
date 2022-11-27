@@ -1,10 +1,8 @@
 package com.gamul.gamul.api.bookmark.domain.dto;
 
 import com.gamul.gamul.domain.entity.Bookmark;
-import com.gamul.gamul.exception.NoBookmarkException;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.ArrayList;
@@ -14,7 +12,7 @@ import java.util.List;
 @Getter
 @AllArgsConstructor
 public class BookmarkResponseDto {
-    private List<String> market;
+    private List<Info> market;
 
     public BookmarkResponseDto(){
         market = new ArrayList<>();
@@ -26,10 +24,24 @@ public class BookmarkResponseDto {
 
         if (!bookmarkList.isEmpty()) {
             for (Bookmark bookmark : bookmarkList) {
-                bookmarkResponseDto.getMarket().add(bookmark.getMarket().getName());
+                Info info = new Info(bookmark.getMarket().getName(),bookmark.getMarket().getRegion());
+                bookmarkResponseDto.getMarket().add(info);
+                System.out.println(info.getName()+" "+info.getRegion());
             }
         }
 
         return bookmarkResponseDto;
     }
+
+    @Getter
+    static class Info {
+        private String name;
+        private String region;
+
+        public Info(String name, String region) {
+            this.name = name;
+            this.region = region;
+        }
+    }
+
 }

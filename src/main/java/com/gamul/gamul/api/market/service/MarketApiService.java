@@ -96,8 +96,15 @@ public class MarketApiService {
 
     private List<String> getAllProductName() {
 
-        return Arrays.asList("사과", "양파", "배", "돼지고기", "무", "계란");
+        return Arrays.asList("사과", "양파", "배추", "돼지고기", "무", "달걀");
 
+//        List<String> productNames = priceHistoryRepository.findAllName();
+//
+//        for (String name : productNames) {
+//            System.out.println(name);
+//        }
+//
+//        return productNames;
     }
 
     private Map<String, PriceHistory> getLatestPriceHistory(List<PriceHistory> unrefined) {
@@ -107,7 +114,7 @@ public class MarketApiService {
 
         for (String name : products) {
             List<PriceHistory> certainProductPrices = unrefined.stream()
-                    .filter(price -> price.getName().equals(name))
+                    .filter(price -> price.getName().contains(name))
                     .collect(Collectors.toList());
 
             if (certainProductPrices.isEmpty()) {
@@ -121,11 +128,6 @@ public class MarketApiService {
 
         return latestPriceHistory;
     }
-
-//    @Transactional(readOnly = true)
-//    public MarketInitResponseDto getAllMarket() {
-//        return MarketInitResponseDto.of()
-//    }
 
     private Market getMarket(String marketName) {
 
