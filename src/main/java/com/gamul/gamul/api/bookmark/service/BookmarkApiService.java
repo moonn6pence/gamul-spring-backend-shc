@@ -43,7 +43,7 @@ public class BookmarkApiService {
         Member member = getMember();
         Market market = getMarket(bookmarkRequestDto);
 
-        if (bookmarkRepository.existsByMarket(market)) {
+        if (bookmarkRepository.existsByMemberAndMarket(member, market)) {
             throw new DuplicateBookmarkException("이미 추가한 북마크입니다.");
         }
 
@@ -57,7 +57,7 @@ public class BookmarkApiService {
         Member member = getMember();
         Market market = getMarket(bookmarkRequestDto);
 
-        if (!bookmarkRepository.existsByMarket(market)) {
+        if (!bookmarkRepository.existsByMemberAndMarket(member, market)) {
             throw new NoBookmarkException("존재하지 않는 북마크입니다.");
         }
 

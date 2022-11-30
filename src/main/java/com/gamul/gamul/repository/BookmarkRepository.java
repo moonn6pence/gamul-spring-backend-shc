@@ -18,5 +18,6 @@ public interface BookmarkRepository extends JpaRepository<Bookmark, Long> {
     Optional<Bookmark> findByMemberAndMarket(Member member, Market market);
 
     boolean existsById(Long id);
-    boolean existsByMarket(Market market);
+
+    boolean existsByMemberAndMarket(Member member, Market market);
 }
