@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Slf4j
@@ -69,6 +70,8 @@ public class ProductApiService {
                     recentPriceDtos.add(RecentPriceDto.of(priceHistory));
                 }
             }
+
+            Collections.reverse(recentPriceDtos);
 
             priceHistoryDtos.add(new PriceHistoryDto(name, priceHistories.get(0).getUnit(), recentPriceDtos));
         }
