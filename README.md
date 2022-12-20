@@ -1,6 +1,3 @@
-# gamul-spring-backend
-- 프로젝트 소개
-- 개발 환경
-- API specification
-- 설치 및 연동
-- 멤버
+# gamul-spring-backend-shc
+- fork한 작업 공간 입니다😁
+- [👉🏻설명은 여기로👈🏻](https://github.com/DGU2022capstone-GAMUL/gamul-spring-backend)
